@@ -1,0 +1,42 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+parameters:
+  - name: azureServiceConnection
+    type: string
+    default: arm
+  - name: resourceGroupName
+    type: string
+    default: userdbrg
+  - name: location
+    type: string
+    default: australiasoutheast
+
+pool:
+  vmImage: 'SelfHostedPool'
+
+steps:
+# Create Azure resources
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: '${{ parameters.azureServiceConnection }}'
+    scriptType: ps
+    scriptLocation: inlineScript
+    inlineScript: |
+      az --version
+      $rgExists = az group exists --name ${{ parameters.resourceGroupName }}
+      if ($rgExists)
+      {
+        az group delete --name ${{ parameters.resourceGroupName }}
+      }
+      az group create --name ${{ parameters.resourceGroupName }} --location ${{ parameters.location }}
+      # az deployment group create `
+      #  --resource-group ${{ parameters.resourceGroupName }} `
+      #  --template-file $(templateFile) `
+      #  --parameters location='${{ parameters.location }}' 
+      #  --parameters appName='${{ parameters.appName }}' 
