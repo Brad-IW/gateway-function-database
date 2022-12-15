@@ -51,5 +51,5 @@ steps:
         --parameters location='${{ parameters.location }}' `
         --parameters sqlServerName='${{ parameters.dbName }}' `
         --parameters adminUsername='${{ parameters.dbUsername }}' `
-        --parameters adminPassword='$(DBPasswordSecret))}' `
+        --parameters adminPassword='$(DBPasswordSecret)' `
         --parameters sqlDatabaseName='${{ parameters.dbCatalogName }}' 
