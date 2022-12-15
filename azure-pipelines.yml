@@ -12,6 +12,9 @@ parameters:
     type: string
     default: australiaeast
 
+variables:
+  templateFile: 'main.bicep'
+
 pool: 'SelfHostedPool'
 
 steps:
