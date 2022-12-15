@@ -5,7 +5,7 @@ param location string = resourceGroup().location
 var sqlServerName = 'usersdbnz' 
 var sqlDatabaseName = 'sqlDatabaseName'
 var adminUsername = 'dbadmin'
-var adminPassword = 'temp'
+var adminPassword = 'ThIsIsNoTsEcUrE1234321'
 
 resource sqlserver 'Microsoft.Sql/servers@2022-05-01-preview' = {
   name: sqlServerName
