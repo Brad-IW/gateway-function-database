@@ -10,7 +10,7 @@ parameters:
     default: userdbrg
   - name: location
     type: string
-    default: australiasoutheast
+    default: australiaeast
 
 pool: 'SelfHostedPool'
 
@@ -28,9 +28,8 @@ steps:
       {
         az group delete --name ${{ parameters.resourceGroupName }}
       }
-      az group create --name ${{ parameters.resourceGroupName }} --location ${{ parameters.location }}
-      
-# az deployment group create `
-#  --resource-group ${{ parameters.resourceGroupName }} `
-#  --template-file $(templateFile) `
-#  --parameters location='${{ parameters.location }}' 
+      az group create --name ${{ parameters.resourceGroupName }} --location ${{ parameters.location }}      
+      az deployment group create `
+        --resource-group ${{ parameters.resourceGroupName }} `
+        --template-file $(templateFile) `
+        --parameters location='${{ parameters.location }}' 
