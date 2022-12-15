@@ -13,7 +13,7 @@ resource sqlserver 'Microsoft.Sql/servers@2022-05-01-preview' = {
   properties: {
     administratorLogin: adminUsername
     administratorLoginPassword: adminPassword
-    publicNetworkAccess: 'Disabled'
+    publicNetworkAccess: 'Enabled'
     minimalTlsVersion: '1.2'
   }
 }
