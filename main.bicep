@@ -25,7 +25,7 @@ resource sqldatabase 'Microsoft.Sql/servers/databases@2022-05-01-preview' = {
   properties: {
     collation: 'SQL_Latin1_General_CP1_CI_AS'
     isLedgerOn: false
-    maxSizeBytes: 268435456000
+    maxSizeBytes: 524288000
     sampleName: ''
     zoneRedundant: false
     licenseType: ''
@@ -33,7 +33,7 @@ resource sqldatabase 'Microsoft.Sql/servers/databases@2022-05-01-preview' = {
     requestedBackupStorageRedundancy: 'Local'
   }
   sku: {  
-    name: 'Free' // Standard
-    tier: 'Free' // S0
+    name: 'Standard'
+    tier: 'S0'
   }
 }
