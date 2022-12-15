@@ -33,7 +33,7 @@ resource sqldatabase 'Microsoft.Sql/servers/databases@2022-05-01-preview' = {
     requestedBackupStorageRedundancy: 'Local'
   }
   sku: {  
-    name: 'Standard'
-    tier: 'S0'
+    name: 'S0'
+    tier: 'Standard'
   }
 }
