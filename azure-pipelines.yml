@@ -39,4 +39,3 @@ steps:
       #  --resource-group ${{ parameters.resourceGroupName }} `
       #  --template-file $(templateFile) `
       #  --parameters location='${{ parameters.location }}' 
-      #  --parameters appName='${{ parameters.appName }}' 
