@@ -1,3 +1,11 @@
+create table Users (
+	Id INT,
+	FirstName VARCHAR(50),
+	LastName VARCHAR(50),
+	Age INT,
+	Sex VARCHAR(50)
+);
+
 insert into Users (Id, FirstName, LastName, Age, Sex) values (1, 'Merralee', 'Trenaman', 30, 'Female');
 insert into Users (Id, FirstName, LastName, Age, Sex) values (2, 'Emera', 'Doppler', 21, 'Polygender');
 insert into Users (Id, FirstName, LastName, Age, Sex) values (3, 'Glenna', 'Elizabeth', 30, 'Female');
