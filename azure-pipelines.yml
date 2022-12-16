@@ -53,11 +53,11 @@ steps:
         --parameters adminUsername='${{ parameters.dbUsername }}' `
         --parameters adminPassword='$(DBPasswordSecret)'
 
-- task: SqlAzureDacpacDeployment@1
-  inputs:
-    azureSubscription: 'arm'
-    AuthenticationType: 'connectionString'
-    ConnectionString: '$(dbConnectionString)'
-    deployType: 'SqlTask'
-    SqlFile: '$(dbDeploySQLScript)'
-    IpDetectionMethod: 'AutoDetect'
+# - task: SqlAzureDacpacDeployment@1
+#   inputs:
+#     azureSubscription: 'arm'
+#     AuthenticationType: 'connectionString'
+#     ConnectionString: '$(dbConnectionString)'
+#     deployType: 'SqlTask'
+#     SqlFile: '$(dbDeploySQLScript)'
+#     IpDetectionMethod: 'AutoDetect'
