@@ -48,6 +48,6 @@ steps:
         --template-file $(templateFile) `
         --parameters location='${{ parameters.location }}' `
         --parameters sqlServerName='${{ parameters.dbName }}' `
-        --parameters sqlDatabaseName='${{ parameters.dbCatalogName }}' 
+        --parameters sqlDatabaseName='${{ parameters.dbCatalogName }}' `
         --parameters adminUsername='${{ parameters.dbUsername }}' `
-        --parameters adminPassword='$(DBPasswordSecret)' `
+        --parameters adminPassword='$(DBPasswordSecret)'
