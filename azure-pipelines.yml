@@ -56,8 +56,11 @@ steps:
 - task: SqlAzureDacpacDeployment@1
   inputs:
     azureSubscription: 'arm'
-    AuthenticationType: 'connectionString'
-    ConnectionString: '$(dbConnectionString)'
+    AuthenticationType: 'server'
+    ServerName: '${{ parameters.dbName }}.database.windows.net,1433'
+    DatabaseName: '${{ parameters.dbCatalogName }}'
+    SqlUsername: '${{ parameters.dbUsername }}'
+    SqlPassword: '$(DBPasswordSecret)'
     deployType: 'SqlTask'
-    SqlFile: '$(dbDeploySQLScript)'
+    SqlFile: 'deploy.sql'
     IpDetectionMethod: 'AutoDetect'
