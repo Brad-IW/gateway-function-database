@@ -30,7 +30,7 @@ variables:
 pool: 'SelfHostedPool'
 
 steps:
-# Create Azure resources
+# # Create Azure resources
 # - task: AzureCLI@2
 #   inputs:
 #     azureSubscription: '${{ parameters.azureServiceConnection }}'
@@ -53,14 +53,15 @@ steps:
 #         --parameters adminUsername='${{ parameters.dbUsername }}' `
 #         --parameters adminPassword='$(DBPasswordSecret)'
 
-- task: SqlAzureDacpacDeployment@1
-  inputs:
-    azureSubscription: 'arm'
-    AuthenticationType: 'server'
-    ServerName: '${{ parameters.dbName }}.database.windows.net,1433'
-    DatabaseName: '${{ parameters.dbCatalogName }}'
-    SqlUsername: '${{ parameters.dbUsername }}'
-    SqlPassword: '$(DBPasswordSecret)'
-    deployType: 'SqlTask'
-    SqlFile: 'deploy.sql'
-    IpDetectionMethod: 'AutoDetect'
+# # Populate database.
+# - task: SqlAzureDacpacDeployment@1
+#   inputs:
+#     azureSubscription: 'arm'
+#     AuthenticationType: 'server'
+#     ServerName: '${{ parameters.dbName }}.database.windows.net,1433'
+#     DatabaseName: '${{ parameters.dbCatalogName }}'
+#     SqlUsername: '${{ parameters.dbUsername }}'
+#     SqlPassword: '$(DBPasswordSecret)'
+#     deployType: 'SqlTask'
+#     SqlFile: 'deploy.sql'
+#     IpDetectionMethod: 'AutoDetect'
