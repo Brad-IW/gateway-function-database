@@ -31,27 +31,27 @@ pool: 'SelfHostedPool'
 
 steps:
 # Create Azure resources
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: '${{ parameters.azureServiceConnection }}'
-    scriptType: ps
-    scriptLocation: inlineScript
-    inlineScript: |
-      az --version
-      $rgExists = az group exists --name ${{ parameters.resourceGroupName }}
-      if ($rgExists)
-      {
-        az group delete --name ${{ parameters.resourceGroupName }} --yes
-      }
-      az group create --name ${{ parameters.resourceGroupName }} --location ${{ parameters.location }}      
-      az deployment group create `
-        --resource-group ${{ parameters.resourceGroupName }} `
-        --template-file $(templateFile) `
-        --parameters location='${{ parameters.location }}' `
-        --parameters sqlServerName='${{ parameters.dbName }}' `
-        --parameters sqlDatabaseName='${{ parameters.dbCatalogName }}' `
-        --parameters adminUsername='${{ parameters.dbUsername }}' `
-        --parameters adminPassword='$(DBPasswordSecret)'
+# - task: AzureCLI@2
+#   inputs:
+#     azureSubscription: '${{ parameters.azureServiceConnection }}'
+#     scriptType: ps
+#     scriptLocation: inlineScript
+#     inlineScript: |
+#       az --version
+#       $rgExists = az group exists --name ${{ parameters.resourceGroupName }}
+#       if ($rgExists)
+#       {
+#         az group delete --name ${{ parameters.resourceGroupName }} --yes
+#       }
+#       az group create --name ${{ parameters.resourceGroupName }} --location ${{ parameters.location }}      
+#       az deployment group create `
+#         --resource-group ${{ parameters.resourceGroupName }} `
+#         --template-file $(templateFile) `
+#         --parameters location='${{ parameters.location }}' `
+#         --parameters sqlServerName='${{ parameters.dbName }}' `
+#         --parameters sqlDatabaseName='${{ parameters.dbCatalogName }}' `
+#         --parameters adminUsername='${{ parameters.dbUsername }}' `
+#         --parameters adminPassword='$(DBPasswordSecret)'
 
 - task: SqlAzureDacpacDeployment@1
   inputs:
