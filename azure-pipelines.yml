@@ -11,6 +11,7 @@ parameters:
   - name: location
     type: string
     default: australiaeast
+# Database.
   - name: dbName
     type: string
     default: usersdbnz
@@ -22,7 +23,7 @@ parameters:
     default: dbadmin
 
 variables:
-  templateFile: 'main.bicep'
+  templateFile: 'database.bicep'
   dbConnectionString: 'Server=tcp:${{ parameters.dbName }}.database.windows.net,1433;Initial Catalog=${{ parameters.dbCatalogName }};Persist Security Info=False;User ID=${{ parameters.dbUsername }};Password=$(DBPasswordSecret);MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
 
 pool: 'SelfHostedPool'
@@ -35,14 +36,11 @@ steps:
     scriptType: ps
     scriptLocation: inlineScript
     inlineScript: |
-      echo dbConnectionString
-
-
       az --version
       $rgExists = az group exists --name ${{ parameters.resourceGroupName }}
       if ($rgExists)
       {
-        az group delete --name ${{ parameters.resourceGroupName }}
+        az group delete --name ${{ parameters.resourceGroupName }} --yes
       }
       az group create --name ${{ parameters.resourceGroupName }} --location ${{ parameters.location }}      
       az deployment group create `
@@ -50,6 +48,6 @@ steps:
         --template-file $(templateFile) `
         --parameters location='${{ parameters.location }}' `
         --parameters sqlServerName='${{ parameters.dbName }}' `
+        --parameters sqlDatabaseName='${{ parameters.dbCatalogName }}' 
         --parameters adminUsername='${{ parameters.dbUsername }}' `
         --parameters adminPassword='$(DBPasswordSecret)' `
-        --parameters sqlDatabaseName='${{ parameters.dbCatalogName }}' 
