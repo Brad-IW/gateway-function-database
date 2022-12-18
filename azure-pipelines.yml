@@ -33,48 +33,48 @@ variables:
 pool: 'SelfHostedPool'
 
 steps:
-# # Delete and build the resource group.
-# - task: AzureCLI@2
-#   inputs:
-#     azureSubscription: '${{ parameters.azureServiceConnection }}'
-#     scriptType: ps
-#     scriptLocation: inlineScript
-#     inlineScript: |
-#       $rgExists = az group exists --name ${{ parameters.resourceGroupName }}
-#       if ($rgExists)
-#       {
-#         az group delete `
-#         --name ${{ parameters.resourceGroupName }} `
-#         --yes
-#       }
-#       az group create `
-#         --name ${{ parameters.resourceGroupName }} `
-#         --location ${{ parameters.location }}      
+# Delete and build the resource group.
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: '${{ parameters.azureServiceConnection }}'
+    scriptType: ps
+    scriptLocation: inlineScript
+    inlineScript: |
+      $rgExists = az group exists --name ${{ parameters.resourceGroupName }}
+      if ($rgExists)
+      {
+        az group delete `
+        --name ${{ parameters.resourceGroupName }} `
+        --yes
+      }
+      az group create `
+        --name ${{ parameters.resourceGroupName }} `
+        --location ${{ parameters.location }}      
 
 # Build dotnet function.
 - template: Templates/dotnet.yml
   parameters: 
     solutionPath: $(System.DefaultWorkingDirectory)/UserAPI
 
-# # Create database.
-# - template: Templates/database.yml
-#   parameters:
-#     azureServiceConnection: ${{ parameters.azureServiceConnection }}
-#     resourceGroupName: ${{ parameters.resourceGroupName }}
-#     bicepPath: $(System.DefaultWorkingDirectory)/database.bicep
-#     sqlDeployPath: $(System.DefaultWorkingDirectory)/deploy.sql
-#     location: ${{ parameters.location }}
-#     dbName: ${{ parameters.dbName }}
-#     dbCatalogName: ${{ parameters.dbCatalogName }}
-#     dbUsername: ${{ parameters.dbUsername }}
+# Create database.
+- template: Templates/database.yml
+  parameters:
+    azureServiceConnection: ${{ parameters.azureServiceConnection }}
+    resourceGroupName: ${{ parameters.resourceGroupName }}
+    bicepPath: $(System.DefaultWorkingDirectory)/database.bicep
+    sqlDeployPath: $(System.DefaultWorkingDirectory)/deploy.sql
+    location: ${{ parameters.location }}
+    dbName: ${{ parameters.dbName }}
+    dbCatalogName: ${{ parameters.dbCatalogName }}
+    dbUsername: ${{ parameters.dbUsername }}
 
 # Create azure function.
-# - template: Templates/azure-function.yml
-#   parameters: 
-#     azureServiceConnection: ${{ parameters.azureServiceConnection }}
-#     resourceGroupName: ${{ parameters.resourceGroupName }}
-#     bicepPath: $(System.DefaultWorkingDirectory)/function.bicep
-#     location: ${{ parameters.location }}
-#     appName: ${{ parameters.functionAppName }}
-#     functionBuildPath: $(System.DefaultWorkingDirectory)/UserAPI/build/build.zip
+- template: Templates/azure-function.yml
+  parameters: 
+    azureServiceConnection: ${{ parameters.azureServiceConnection }}
+    resourceGroupName: ${{ parameters.resourceGroupName }}
+    bicepPath: $(System.DefaultWorkingDirectory)/function.bicep
+    location: ${{ parameters.location }}
+    appName: ${{ parameters.functionAppName }}
+    functionBuildPath: $(System.DefaultWorkingDirectory)/UserAPI/build/build.zip
 

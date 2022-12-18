@@ -17,6 +17,9 @@ parameters:
   - name: functionBuildPath
     type: string
     default: build/build.zip
+  - name: databaseConnectionString
+    type: string
+    default: ""
 
 steps:
 # Create Azure resources
@@ -26,15 +29,16 @@ steps:
     scriptType: ps
     scriptLocation: inlineScript
     inlineScript: |
-      az group create `
-        --name ${{ parameters.resourceGroupName }} `
-        --location ${{ parameters.location }} 
-      
       az deployment group create `
         --resource-group ${{ parameters.resourceGroupName }} `
         --template-file ${{ parameters.bicepPath }} `
         --parameters location='${{ parameters.location }}' `
         --parameters appName='${{ parameters.appName }}' 
+
+      az functionapp config appsettings set `
+        --name ${{ parameters.appName }} `
+        --resource-group ${{ parameters.resourceGroupName }} `
+        --settings SqlConnectionString=${{ parameters.databaseConnectionString }}
 # Upload function
 - task: AzureFunctionApp@1
   inputs:
