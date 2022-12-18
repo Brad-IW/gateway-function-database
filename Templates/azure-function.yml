@@ -1,0 +1,48 @@
+parameters: 
+  - name: azureServiceConnection
+    type: string
+    default: arm
+  - name: resourceGroupName
+    type: string
+    default: userdbrg
+  - name: bicepPath
+    type: string
+    default: main.bicep
+  - name: location
+    type: string
+    default: australiaeast
+  - name: appName
+    type: string
+    default: functionapp
+  - name: functionBuildPath
+    type: string
+    default: build/build.zip
+
+steps:
+# Create Azure resources
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: '${{ parameters.azureServiceConnection }}'
+    scriptType: ps
+    scriptLocation: inlineScript
+    inlineScript: |
+      az group create `
+        --name ${{ parameters.resourceGroupName }} `
+        --location ${{ parameters.location }} 
+      
+      az deployment group create `
+        --resource-group ${{ parameters.resourceGroupName }} `
+        --template-file ${{ parameters.bicepPath }} `
+        --parameters location='${{ parameters.location }}' `
+        --parameters appName='${{ parameters.appName }}' 
+# Upload function
+- task: AzureFunctionApp@1
+  inputs:
+    azureSubscription: '${{ parameters.azureServiceConnection }}'
+    appType: 'functionApp'
+    appName: '${{ parameters.appName }}'
+    deployToSlotOrASE: true
+    resourceGroupName: '${{ parameters.resourceGroupName }}'
+    slotName: 'production'
+    package: '${{ parameters.functionBuildPath }}'
+    deploymentMethod: 'auto'

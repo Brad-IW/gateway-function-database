@@ -1,0 +1,55 @@
+parameters:
+  - name: azureServiceConnection
+    type: string
+    default: arm
+  - name: resourceGroupName
+    type: string
+    default: userdbrg
+  - name: bicepPath
+    type: string
+    default: main.bicep
+  - name: sqlDeployPath
+    type: string
+    default: deploy.sql
+  - name: location
+    type: string
+    default: australiaeast
+  - name: dbName
+    type: string
+    default: usersdbnz
+  - name: dbCatalogName
+    type: string
+    default: UsersDatabase
+  - name: dbUsername
+    type: string
+    default: dbadmin
+
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: '${{ parameters.azureServiceConnection }}'
+    scriptType: ps
+    scriptLocation: inlineScript
+    inlineScript: |
+      az group create --name ${{ parameters.resourceGroupName }} --location ${{ parameters.location }}      
+      az deployment group create `
+        --resource-group ${{ parameters.resourceGroupName }} `
+        --template-file ${{ parameters.templateFile }} `
+        --parameters location='${{ parameters.location }}' `
+        --parameters sqlServerName='${{ parameters.dbName }}' `
+        --parameters sqlDatabaseName='${{ parameters.dbCatalogName }}' `
+        --parameters adminUsername='${{ parameters.dbUsername }}' `
+        --parameters adminPassword='$(DBPasswordSecret)'
+
+# Populate database.
+- task: SqlAzureDacpacDeployment@1
+  inputs:
+    azureSubscription: 'arm'
+    AuthenticationType: 'server'
+    ServerName: '${{ parameters.dbName }}.database.windows.net,1433'
+    DatabaseName: '${{ parameters.dbCatalogName }}'
+    SqlUsername: '${{ parameters.dbUsername }}'
+    SqlPassword: '$(DBPasswordSecret)'
+    deployType: 'SqlTask'
+    SqlFile: '${{ parameters.sqlDeployPath }}'
+    IpDetectionMethod: 'AutoDetect'
