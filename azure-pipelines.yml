@@ -30,6 +30,9 @@ variables:
 pool: 'SelfHostedPool'
 
 steps:
+- template: dotnet.yml
+  parameters: 
+    solutionPath: $(System.DefaultWorkingDirectory)/UserAPI
 # # Create Azure resources
 # - task: AzureCLI@2
 #   inputs:
