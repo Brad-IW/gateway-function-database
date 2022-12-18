@@ -33,7 +33,7 @@ steps:
     inlineScript: |
       az deployment group create `
         --resource-group ${{ parameters.resourceGroupName }} `
-        --template-file ${{ parameters.templateFile }} `
+        --template-file ${{ parameters.bicepPath }} `
         --parameters location='${{ parameters.location }}' `
         --parameters sqlServerName='${{ parameters.dbName }}' `
         --parameters sqlDatabaseName='${{ parameters.dbCatalogName }}' `
