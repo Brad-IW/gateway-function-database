@@ -31,7 +31,6 @@ steps:
     scriptType: ps
     scriptLocation: inlineScript
     inlineScript: |
-      az group create --name ${{ parameters.resourceGroupName }} --location ${{ parameters.location }}      
       az deployment group create `
         --resource-group ${{ parameters.resourceGroupName }} `
         --template-file ${{ parameters.templateFile }} `
