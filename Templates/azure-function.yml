@@ -38,7 +38,8 @@ steps:
       az functionapp config appsettings set `
         --name ${{ parameters.appName }} `
         --resource-group ${{ parameters.resourceGroupName }} `
-        --settings SqlConnectionString=${{ parameters.databaseConnectionString }}
+        --settings SqlConnectionString=${{ parameters.databaseConnectionString }} `
+        --settings FUNCTIONS_EXTENSION_VERSION=~4
 # Upload function
 - task: AzureFunctionApp@1
   inputs:

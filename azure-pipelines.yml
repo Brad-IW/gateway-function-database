@@ -26,10 +26,6 @@ parameters:
     type: string
     default: usersapinz
 
-variables:
-  dbDeploySQLScript: 'deploy.sql'
-  dbConnectionString: 'Server=tcp:${{ parameters.dbName }}.database.windows.net,1433;Initial Catalog=${{ parameters.dbCatalogName }};Persist Security Info=False;User ID=${{ parameters.dbUsername }};Password=$(DBPasswordSecret);MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
-
 pool: 'SelfHostedPool'
 
 steps:
@@ -77,4 +73,5 @@ steps:
     location: ${{ parameters.location }}
     appName: ${{ parameters.functionAppName }}
     functionBuildPath: $(System.DefaultWorkingDirectory)/UserAPI/build/build.zip
+    databaseConnectionString: 'Server=tcp:${{ parameters.dbName }}.database.windows.net,1433;Initial Catalog=${{ parameters.dbCatalogName }};Persist Security Info=False;User ID=${{ parameters.dbUsername }};Password=$(DBPasswordSecret);MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
 
