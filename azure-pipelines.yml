@@ -29,6 +29,15 @@ parameters:
   - name: gatewayName
     type: string
     default: usersgatewaynz
+  - name: apiName
+    type: string
+    default: usersapinz
+  - name: publisherName
+    type: string
+    default: John Smith
+  - name: publisherEmail
+    type: string
+    default: john.smith@example.com
 
 pool: 'SelfHostedPool'
 
@@ -80,10 +89,13 @@ steps:
     databaseConnectionString: 'Server=tcp:${{ parameters.dbName }}.database.windows.net,1433;Initial Catalog=${{ parameters.dbCatalogName }};Persist Security Info=False;User ID=${{ parameters.dbUsername }};Password=$(DBPasswordSecret);MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
 
 # Create API gateway.
-- template:  Templates/gateway
+- template:  Templates/gateway.yml
   parameters:
     azureServiceConnection: ${{ parameters.azureServiceConnection }}
     resourceGroupName: ${{ parameters.resourceGroupName }}
     bicepPath: $(System.DefaultWorkingDirectory)/Biceps/gateway.bicep
     location: ${{ parameters.location }}
     gatewayName: ${{ parameters.gatewayName }}
+    apiName: ${{ parameters.apiName }}
+    publisherName: ${{ parameters.publisherName }}
+    publisherEmail: ${{ parameters.publisherEmail }}

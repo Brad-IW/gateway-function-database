@@ -14,15 +14,15 @@ parameters:
   - name: gatewayName
     type: string
     default: usersgatewaynz
-  - name: publisherName
-    type: string
-    default: John Smith
-  - name: publisherName
-    type: string
-    default: john.smith@example.com
   - name: apiName
     type: string
     default: userapinz
+  - name: publisherName
+    type: string
+    default: John Smith
+  - name: publisherEmail
+    type: string
+    default: john.smith@example.com
 
 steps:
 - task: AzureCLI@2
