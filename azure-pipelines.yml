@@ -81,6 +81,7 @@ steps:
 
 # Create API gateway.
 - template:  Templates/gateway
+  parameters:
     azureServiceConnection: ${{ parameters.azureServiceConnection }}
     resourceGroupName: ${{ parameters.resourceGroupName }}
     bicepPath: $(System.DefaultWorkingDirectory)/Biceps/gateway.bicep
