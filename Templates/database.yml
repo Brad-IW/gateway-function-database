@@ -26,6 +26,7 @@ parameters:
 
 steps:
 - task: AzureCLI@2
+  displayName: Create Database
   inputs:
     azureSubscription: '${{ parameters.azureServiceConnection }}'
     scriptType: ps
@@ -42,6 +43,7 @@ steps:
 
 # Populate database.
 - task: SqlAzureDacpacDeployment@1
+  displayName: Populate Database
   inputs:
     azureSubscription: 'arm'
     AuthenticationType: 'server'

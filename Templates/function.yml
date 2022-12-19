@@ -24,6 +24,7 @@ parameters:
 steps:
 # Create Azure resources
 - task: AzureCLI@2
+  displayName: Create Azure Function
   inputs:
     azureSubscription: '${{ parameters.azureServiceConnection }}'
     scriptType: ps
@@ -38,10 +39,10 @@ steps:
       az functionapp config appsettings set `
         --name ${{ parameters.appName }} `
         --resource-group ${{ parameters.resourceGroupName }} `
-        --settings SqlConnectionString=${{ parameters.databaseConnectionString }} `
-        --settings FUNCTIONS_EXTENSION_VERSION=~4
+        --settings SqlConnectionString=${{ parameters.databaseConnectionString }} FUNCTIONS_EXTENSION_VERSION=~4
 # Upload function
 - task: AzureFunctionApp@1
+  displayName: Upload Azure Function 
   inputs:
     azureSubscription: '${{ parameters.azureServiceConnection }}'
     appType: 'functionApp'

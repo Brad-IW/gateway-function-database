@@ -26,6 +26,7 @@ parameters:
 
 steps:
 - task: AzureCLI@2
+  displayName: Create Azure Gateway
   inputs:
     azureSubscription: '${{ parameters.azureServiceConnection }}'
     scriptType: ps

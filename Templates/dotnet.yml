@@ -12,20 +12,20 @@ steps:
     version: '6.x'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Restore function NuGet packages'
+  displayName: 'Restore Function NuGet Packages'
   inputs:
     command: 'restore'
     projects: '${{ parameters.solutionPath }}'
     feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Build function'
+  displayName: 'Build Function'
   inputs:
     command: 'build'
     projects: '${{ parameters.solutionPath }}'
 
 - task: DotNetCoreCLI@2
-  displayName:  Publish function to folder.
+  displayName:  Publish Function To Folder.
   inputs:
     command: 'publish'
     arguments: '--configuration Release --output ${{ parameters.solutionPath }}/build'

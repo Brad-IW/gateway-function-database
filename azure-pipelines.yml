@@ -44,6 +44,7 @@ pool: 'SelfHostedPool'
 steps:
 # Delete and build the resource group.
 - task: AzureCLI@2
+  displayName: Create Resource Group
   inputs:
     azureSubscription: '${{ parameters.azureServiceConnection }}'
     scriptType: ps
