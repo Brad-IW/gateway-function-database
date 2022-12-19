@@ -20,6 +20,9 @@ parameters:
   - name: publisherName
     type: string
     default: john.smith@example.com
+  - name: apiName
+    type: string
+    default: userapinz
 
 steps:
 - task: AzureCLI@2
@@ -35,3 +38,17 @@ steps:
         --parameters gatewayName='${{ parameters.gatewayName }}' `
         --parameters publisherName='${{ parameters.publisherName }}' `
         --parameters publisherEmail='${{ parameters.publisherEmail }}' 
+      
+      az apim api create --api-id "${{ parameters.apiName }}" ` 
+        --display-name "User API" `
+        --path /userapi `
+        --resource-group "${{ parameters.resourceGroupName }}" ` 
+        --service-name "${{ parameters.gatewayName }}" `
+        --service-url "https://anothercoolapp.azurewebsites.net/api/HttpTrigger2"
+
+      az apim api operation create --api-id "${{ parameters.apiName }}" `
+        --display-name "Get Users" `
+        --method "GET" `
+        --resource-group "${{ parameters.resourceGroupName }}" `
+        --service-name "${{ parameters.gatewayName }}" `
+        --url-template "/users"
