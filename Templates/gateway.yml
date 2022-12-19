@@ -1,0 +1,37 @@
+parameters: 
+  - name: azureServiceConnection
+    type: string
+    default: arm
+  - name: resourceGroupName
+    type: string
+    default: userdbrg
+  - name: bicepPath
+    type: string
+    default: main.bicep
+  - name: location
+    type: string
+    default: australiaeast
+  - name: gatewayName
+    type: string
+    default: usersgatewaynz
+  - name: publisherName
+    type: string
+    default: John Smith
+  - name: publisherName
+    type: string
+    default: john.smith@example.com
+
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: '${{ parameters.azureServiceConnection }}'
+    scriptType: ps
+    scriptLocation: inlineScript
+    inlineScript: |
+      az deployment group create `
+        --resource-group ${{ parameters.resourceGroupName }} `
+        --template-file ${{ parameters.bicepPath }} `
+        --parameters location='${{ parameters.location }}' `
+        --parameters gatewayName='${{ parameters.gatewayName }}' `
+        --parameters publisherName='${{ parameters.publisherName }}' `
+        --parameters publisherEmail='${{ parameters.publisherEmail }}' 

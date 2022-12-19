@@ -7,7 +7,7 @@ parameters:
     default: arm
   - name: resourceGroupName
     type: string
-    default: userdbrg
+    default: userapirg
   - name: location
     type: string
     default: australiaeast
@@ -25,6 +25,10 @@ parameters:
   - name: functionAppName
     type: string
     default: usersapinz
+  # gateway
+  - name: gatewayName
+    type: string
+    default: usersgatewaynz
 
 pool: 'SelfHostedPool'
 
@@ -57,7 +61,7 @@ steps:
   parameters:
     azureServiceConnection: ${{ parameters.azureServiceConnection }}
     resourceGroupName: ${{ parameters.resourceGroupName }}
-    bicepPath: $(System.DefaultWorkingDirectory)/database.bicep
+    bicepPath: $(System.DefaultWorkingDirectory)/Biceps/database.bicep
     sqlDeployPath: $(System.DefaultWorkingDirectory)/deploy.sql
     location: ${{ parameters.location }}
     dbName: ${{ parameters.dbName }}
@@ -65,13 +69,20 @@ steps:
     dbUsername: ${{ parameters.dbUsername }}
 
 # Create azure function.
-- template: Templates/azure-function.yml
+- template: Templates/function.yml
   parameters: 
     azureServiceConnection: ${{ parameters.azureServiceConnection }}
     resourceGroupName: ${{ parameters.resourceGroupName }}
-    bicepPath: $(System.DefaultWorkingDirectory)/function.bicep
+    bicepPath: $(System.DefaultWorkingDirectory)/Biceps/function.bicep
     location: ${{ parameters.location }}
     appName: ${{ parameters.functionAppName }}
     functionBuildPath: $(System.DefaultWorkingDirectory)/UserAPI/build/build.zip
     databaseConnectionString: 'Server=tcp:${{ parameters.dbName }}.database.windows.net,1433;Initial Catalog=${{ parameters.dbCatalogName }};Persist Security Info=False;User ID=${{ parameters.dbUsername }};Password=$(DBPasswordSecret);MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
 
+# Create API gateway.
+- template:  Templates/gateway
+    azureServiceConnection: ${{ parameters.azureServiceConnection }}
+    resourceGroupName: ${{ parameters.resourceGroupName }}
+    bicepPath: $(System.DefaultWorkingDirectory)/Biceps/gateway.bicep
+    location: ${{ parameters.location }}
+    gatewayName: ${{ parameters.gatewayName }}
