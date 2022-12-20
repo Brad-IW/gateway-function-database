@@ -40,9 +40,10 @@ steps:
         --parameters publisherName='${{ parameters.publisherName }}' `
         --parameters publisherEmail='${{ parameters.publisherEmail }}' 
       
-      az apim api create --api-id "${{ parameters.apiName }}" ` 
+      az apim api create `
+        --api-id "${{ parameters.apiName }}" ` 
         --display-name "User API" `
-        --path /userapi `
+        --path "/userapi" `
         --resource-group "${{ parameters.resourceGroupName }}" ` 
         --service-name "${{ parameters.gatewayName }}" `
         --service-url "https://anothercoolapp.azurewebsites.net/api/HttpTrigger2"
